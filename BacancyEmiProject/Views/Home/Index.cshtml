@@ -1,0 +1,52 @@
+﻿@model BacancyEmiProject.Models.CriteriaInputByUser
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        <form asp-controller="Home" asp-action="Index" method="post">
+            <label> Loan amount</label>
+            <input asp-for="LoanAmount" id="clsLoanAmount" />
+            <span asp-validation-for="LoanAmount" class="field-validation-valid"></span>
+
+            <label> Loan Interest</label>
+            <input asp-for="LoanInterest" id="clsLoanInterest" />
+            <span asp-validation-for="LoanInterest" class="field-validation-valid"></span>
+
+            <label> No Of Year</label>
+            <input asp-for="NoOfYear" id="clsNoOfYear" />
+            <span asp-validation-for="NoOfYear" class="field-validation-valid"></span>
+
+            <label> Monthly Emi</label>
+            <input asp-for="MonthlyEmi" disabled id="clsMonthlyEmi" />
+            <span asp-validation-for="MonthlyEmi" class="field-validation-valid"></span>
+
+            <label> Rate Of Interest</label>
+            <input asp-for="RateOfInterest" disabled id="clsRateOfInterest" />
+            <span asp-validation-for="RateOfInterest" class="field-validation-valid"></span>
+
+            <button type="button" id="showGrid">Show Grid</button>
+            <div class="text-center clsGrid" hidden>
+                <h3>EMI transaction</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Opening</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Emi</th>
+                            <th>Closing</th>
+                            <th>CummulativeInterest</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionBody">
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button asp-controller="Home" asp-action="Index" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+    <script src="~/js/LoanEmi.js"></script>
