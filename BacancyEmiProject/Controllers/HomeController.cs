@@ -3,6 +3,7 @@ using System.Linq;
 using BacancyEmiProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using BacancyEmiProject.Interface;
+using System;
 
 namespace BacancyEmiProject.Controllers
 {
@@ -19,12 +20,12 @@ namespace BacancyEmiProject.Controllers
             return (IActionResult)View();
         }
        
-
+        [HttpPost]
         public JsonResult GetTransactionGrid([FromBody] CriteriaInputByUser criteriaInputByUser)
         {
             var loanEmiTransaction = GetEmiTransactionLogs(criteriaInputByUser);
 
-            return Json(new { loanEmiTransaction = loanEmiTransaction });
+            return Json(loanEmiTransaction);
         }
 
         private List<LoanEmiTransaction> GetEmiTransactionLogs(CriteriaInputByUser criteriaInputByUser)
@@ -43,19 +44,20 @@ namespace BacancyEmiProject.Controllers
 
             for (int i = 0; i < noOfMonthlyInstallment; i++)
             {
+                
                 var loanEmi = new LoanEmiTransaction
                 {
-                    Opening = previousOpening,
-                    Principal = previousPrincipal,
-                    Interest = previousInterest,
-                    Emi = EMI,
-                    Closing = previousOpening- previousPrincipal,
-                    CummulativeInterest = previousInterest + loanEmiTransaction.Sum(a=> a.Interest)
+                    Opening = Math.Round(previousOpening,2),
+                    Principal = Math.Round(previousPrincipal,2),
+                    Interest = Math.Round(previousInterest, 2),
+                    Emi = Math.Round(EMI, 2),
+                    Closing = Math.Round(previousOpening - previousPrincipal, 2),
+                    CummulativeInterest = Math.Round(previousInterest + loanEmiTransaction.Sum(a=> a.Interest), 2)
                 };
                 loanEmiTransaction.Add(loanEmi);
 
-                previousOpening = loanEmi.Opening;
-                previousInterest = loanEmi.Opening * rateOfInterest;
+                previousOpening = previousOpening - previousPrincipal;
+                previousInterest = previousOpening * rateOfInterest;
                 previousPrincipal = EMI - previousInterest;
             }
             

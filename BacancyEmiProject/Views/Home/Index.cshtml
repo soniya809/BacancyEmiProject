@@ -6,46 +6,49 @@
     <div class="text-center">
         <form asp-controller="Home" asp-action="Index" method="post">
             <label> Loan amount</label>
-            <input asp-for="LoanAmount" id="clsLoanAmount" />
+            <input asp-for="LoanAmount" id="clsLoanAmount" class="numeric" />
             <span asp-validation-for="LoanAmount" class="field-validation-valid"></span>
 
             <label> Loan Interest</label>
-            <input asp-for="LoanInterest" id="clsLoanInterest" />
+            <input asp-for="LoanInterest" id="clsLoanInterest" class="numeric"/>
             <span asp-validation-for="LoanInterest" class="field-validation-valid"></span>
 
             <label> No Of Year</label>
-            <input asp-for="NoOfYear" id="clsNoOfYear" />
+            <input asp-for="NoOfYear" id="clsNoOfYear" class="numeric"/>
             <span asp-validation-for="NoOfYear" class="field-validation-valid"></span>
 
             <label> Monthly Emi</label>
-            <input asp-for="MonthlyEmi" disabled id="clsMonthlyEmi" />
+            <input asp-for="MonthlyEmi" disabled id="clsMonthlyEmi" class="numeric"/>
             <span asp-validation-for="MonthlyEmi" class="field-validation-valid"></span>
 
             <label> Rate Of Interest</label>
-            <input asp-for="RateOfInterest" disabled id="clsRateOfInterest" />
+            <input asp-for="RateOfInterest" disabled id="clsRateOfInterest" class="numeric"/>
             <span asp-validation-for="RateOfInterest" class="field-validation-valid"></span>
 
             <button type="button" id="showGrid">Show Grid</button>
-            <div class="text-center clsGrid" hidden>
+            <div class="clsGrid" hidden>
                 <h3>EMI transaction</h3>
-                <table>
+                <table style="border: 1px solid black">
                     <thead>
                         <tr>
-                            <th>Opening</th>
-                            <th>Principal</th>
-                            <th>Interest</th>
-                            <th>Emi</th>
-                            <th>Closing</th>
-                            <th>CummulativeInterest</th>
+                            <th style="border: 1px solid black">Opening</th>
+                            <th style="border: 1px solid black">Principal</th>
+                            <th style="border: 1px solid black">Interest</th>
+                            <th style="border: 1px solid black">Emi</th>
+                            <th style="border: 1px solid black">Closing</th>
+                            <th style="border: 1px solid black">CummulativeInterest</th>
                         </tr>
                     </thead>
-                    <tbody id="transactionBody">
+                    <tbody id="transactionBody" style="border: 1px solid black">
                         <tr>
-                            <td></td>
+                            
                         </tr>
                     </tbody>
                 </table>
-                <button asp-controller="Home" asp-action="Index" type="submit">Save</button>
+                <div style="float:left">
+                    <button asp-controller="Home" asp-action="Index" type="submit" >Save</button>
+                </div>
+                
             </div>
         </form>
     </div>

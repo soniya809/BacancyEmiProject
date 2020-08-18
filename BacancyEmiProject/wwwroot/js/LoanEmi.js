@@ -1,4 +1,18 @@
 ﻿$(document).ready(function () {
+
+    $(".numeric").keydown(function (event) {
+        // Allow only backspace and delete
+        if (event.keyCode == 46 || event.keyCode == 8) {
+            // let it happen, don't do anything
+        }
+        else {
+            // Ensure that it is a number and stop the keypress
+            if (event.keyCode < 48 || event.keyCode > 57) {
+                event.preventDefault();
+            }
+        }
+    });
+
     $("#clsLoanAmount,#clsLoanInterest,#clsNoOfYear").blur(function () {
         var loanAmount = $("#clsLoanAmount").val();
         var loanInterest = $("#clsLoanInterest").val();
@@ -10,8 +24,8 @@
         var noOfMonthlyIst = (1 + rateOfInterest);
         var EMI = loanAmount * rateOfInterest * noOfMonthlyIst * noOfMonthlyInstallment / (noOfMonthlyIst * noOfMonthlyInstallment - 1);
 
-        $('#clsMonthlyEmi').val(EMI);
-        $('#clsRateOfInterest').val(rateOfInterest);
+        $('#clsMonthlyEmi').val(EMI.toFixed(2));
+        $('#clsRateOfInterest').val(rateOfInterest.toFixed(2));
     });
 
     $(function () {
@@ -33,33 +47,32 @@
                 toastr.error('Please enter numeric Rate of Interest');
             }
             else {
-                var CriteriaInputByUser = {
-                    LoanAmount: $("#clsLoanAmount").val(),
-                    LoanInterest: $("#clsLoanInterest").val(),
-                    NoOfYear: $("#clsNoOfYear").val(),
-                    MonthlyEmi: $('#clsMonthlyEmi').val(),
-                    RateOfInterest: $('#clsRateOfInterest').val()
+                var criteriaInputByUser = {
+                    LoanAmount: parseFloat($("#clsLoanAmount").val()),
+                    LoanInterest: parseFloat($("#clsLoanInterest").val()),
+                    NoOfYear: parseFloat($("#clsNoOfYear").val()),
+                    MonthlyEmi: parseFloat($('#clsMonthlyEmi').val()),
+                    RateOfInterest: parseFloat($('#clsRateOfInterest').val())
                 };
                 $.ajax({
                     type: "POST",
                     url: "/Home/GetTransactionGrid",
-                    data: JSON.stringify(CriteriaInputByUser),
+                    data: JSON.stringify(criteriaInputByUser),
                     dataType: "json",
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
-                        var json = $.parseJSON(data);
                         var tableHtml = '';
-                        $.each(json, function (index) {
+                        $.each(data, function (index) {
                             tableHtml = tableHtml +
-                                '<tr><td>' + data[index].Opening + '</td><td>' + data[index].Principal + '</td><td>' + data[index].Interest + '</td><td>' + data[index].Emi + '</td><td>' + data[index].Closing + '</td><td>' + data[index].CummulativeInterest + '</td></tr>';
+                                '<tr><td style="border: 1px solid black">' + data[index].opening + '</td><td style="border: 1px solid black">' + data[index].principal + '</td><td style="border: 1px solid black">' + data[index].interest + '</td><td style="border: 1px solid black">' + data[index].emi + '</td><td style="border: 1px solid black">' + data[index].closing + '</td><td style="border: 1px solid black">' + data[index].cummulativeInterest + '</td></tr>';
                         });
 
                         $("#transactionBody").html(tableHtml);
-
+                        $(".clsGrid").removeAttr('hidden');
                         $('#showGrid').show();
                     },
                     error: function () {
-                        $('#showGrid').hide();
+                        //$('#showGrid').hide();
                     }
                 });
             }

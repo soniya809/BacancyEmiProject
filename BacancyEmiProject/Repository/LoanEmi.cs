@@ -20,11 +20,10 @@ namespace BacancyEmiProject.Repository
 
             dynamicParameters.Add("@LoanAmount", criteriaInputByUser.LoanAmount);
             dynamicParameters.Add("@LoanInterest", criteriaInputByUser.LoanInterest);
-            dynamicParameters.Add("@LoanAmount", criteriaInputByUser.LoanAmount);
-            dynamicParameters.Add("@NoOfear", criteriaInputByUser.NoOfYear);
+            dynamicParameters.Add("@NoOfYear", criteriaInputByUser.NoOfYear);
             dynamicParameters.Add("@MonthlyEmi", criteriaInputByUser.MonthlyEmi);
             dynamicParameters.Add("@RateOfInterest", criteriaInputByUser.RateOfInterest);
-            dynamicParameters.Add("@LoanAmount", DataTables.ToDataTable(loanEmiTransactions));
+            dynamicParameters.Add("@LoanEmiTransactionType", DataTables.ToDataTable(loanEmiTransactions).AsTableValuedParameter("LoanEmiTransactionType"));
 
             using (var conn = new SqlConnection(_connectionString.Value))
             {
